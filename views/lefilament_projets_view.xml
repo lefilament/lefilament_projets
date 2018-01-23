@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+
+		<!-- Project Form -->
+		<record id="view_form_lefilament_project_form_inherited" model="ir.ui.view">
+			<field name="name">Le Filament Projets</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project.edit_project"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='use_tasks']" position="before">
+					<div>
+						<field name="use_prospection" class="oe_inline"/>
+						<label for="use_prospection" class="oe_inline"/>
+					</div>
+				</xpath>
+				<xpath expr="//notebook" position="before">
+					<group>
+						<group>
+							<field name="lf_total_budget" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+							<field name="lf_tarif_jour" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+							<field name="lf_couts_estimes" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+						</group>
+						<group>
+							<field name="lf_taux_horaire" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+							<field name="lf_heures_projet" />
+						</group>
+					</group>
+					<div class="clearfix"></div>
+				</xpath>
+				<xpath expr="//page" position="before">
+					<page string="Comments" name="commentaires">
+						<field name="lf_commentaire" />
+					</page>
+				</xpath>
+                <xpath expr="//field[@widget='mail_followers']" position="after">
+                        <field name="message_ids" widget="mail_thread"/>
+                </xpath>
+			</field>
+		</record>
+
+
+		<!-- Tree View Projects -->
+		<record id="lefilament_project_tree_view" model="ir.ui.view">
+			<field name="name">Le Filament Projets Tree View</field>
+			<field name="model">project.project</field>
+			<field name="view_type">tree</field>
+			<field name="inherit_id" ref="project.view_project"/>
+			<field eval="0" name="sequence"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='partner_id']" position="after">
+					<field name="lf_total_budget" />
+	                        	<field name="lf_heures_prospection"/>
+					<field name="lf_heures_budget" />
+					<field name="lf_heures_projet" />
+					<field name="lf_heures_planifiees" />
+					<field name="lf_heures_restantes" />
+					<field name="lf_couts_annexes" />
+					<field name="lf_couts_estimes" />
+				</xpath>
+			</field>
+		</record>
+
+
+        <record id="crm_case_kanban_view_leads_inherit" model="ir.ui.view" >
+                <field name="name">Le Filament Projets Kanban</field>
+                <field name="model">project.project</field>
+                <field name="inherit_id" ref="project.view_project_kanban"/>
+                <field name="arch" type="xml">
+			<xpath expr="//templates" position="before">
+				<field name="use_prospection"/>
+			</xpath>
+                        <xpath expr="//div[@class='o_kanban_primary_left']" position="after">
+	                        	<table class="table table-condensed" style="margin-bottom: 0;">
+	                        		<thead style="background: transparent; border-bottom: 1px solid #555;">
+	                        			<tr>
+	                        				<td attrs="{'invisible':[('use_prospection', '=', False)]}">prospecting</td>
+	                        				<td>sold</td>
+	                        				<td>spent</td>
+	                        				<td>remaining</td>
+	                        			</tr>
+	                        		</thead>
+	                        		<tbody>
+	                        			<tr>
+	                        				<td class="lf_cell" attrs="{'invisible': [('use_prospection', '=', False)]}"><field name="lf_heures_prospection" >h</field></td>
+	                        				<td class="lf_cell"><field name="lf_heures_projet" >h</field></td>
+	                        				<td class="lf_cell"><field name="lf_heures_passees" >h</field></td>
+	                        				<td class="lf_cell"><field name="lf_heures_restantes" >h</field></td>
+	                        			</tr>
+	                        		</tbody>
+	                        	</table>
+	                        	<div class="project-progress">
+	                        		<field name="lf_heures_restantes" widget="progress"  options="{'current_value': 'lf_heures_passees', 'max_value': 'lf_heures_projet', 'editable': false, 'edit_max_value': false, }" />
+	                        	</div>
+	                        	<table class="budget_table"><tbody><tr>
+	                        		<td>Total budget : </td>
+	                        		<td><field name="lf_total_budget"> €</field></td>
+	                        	</tr>
+	                        	<tr>
+	                        		<td>Budget hours : </td>
+	                        		<td><field name="lf_heures_budget"> €</field></td>
+	                        	</tr>
+	                        	<tr>
+	                        		<td>Estimated costs : </td>
+	                        		<td><field name="lf_couts_estimes"> €</field></td>
+	                        	</tr>
+	                        	<tr>
+	                        		<td>Additional costs : </td>
+	                        		<td><field name="lf_couts_annexes"> €</field></td>
+	                        	</tr>
+	                        </tbody></table>
+	                        <table class="budget_table"><tbody><tr>
+	                        	<td><a t-if="record.use_tasks.raw_value" name="%(project.act_project_project_2_project_task_all)d" type="action">Tasks</a></td>
+	                        	<td><a type="open">Project</a></td>
+	                        </tr></tbody></table>
+                        </xpath>
+                        <!-- HIDE TASK AND DOCS NUMBER -->
+                        <xpath expr="//div[@class='o_project_kanban_boxes']" position="attributes">
+							<attribute name="invisible">1</attribute>
+                        </xpath>
+                </field>
+        </record>
+
+
+        <record id="view_lf_project_config_settings" model="ir.ui.view">
+            <field name="name">project lf settings</field>
+            <field name="model">project.config.settings</field>
+            <field name="inherit_id" ref="project.view_config_settings"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='module_rating_project']" position="after">
+					<field name="lf_heures_jour"  class="oe_inline oe_text_right" />
+                </xpath>
+            </field>
+        </record>
+
+	</data>
+</odoo>

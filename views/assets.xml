@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <template id="lefilament_tdb_assets_backend" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/lefilament_projets/static/src/js/widget.js"></script>
+                <link rel="stylesheet" href="/lefilament_projets/static/src/less/style.less"/>                
+            </xpath>
+        </template>
+
+    </data>
+</odoo>
