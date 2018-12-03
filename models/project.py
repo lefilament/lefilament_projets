@@ -68,7 +68,7 @@ class FilamentProjet(models.Model):
 	def _couts_annexes(self):
 		account = self.analytic_account_id.id		
 		##############    Calcul couts annexes   ################
-		self.env.cr.execute("select sum(untaxed_amount) from hr_expense where analytic_account_id=%s;", (account, ) )
+		self.env.cr.execute("select -sum(amount) from account_analytic_line where account_id=%s and project_id is null and ref is not null;", (account, ) )
 		couts_annexes = self.env.cr.fetchone()[0]
 		if couts_annexes:
 			self.lf_couts_annexes = couts_annexes
