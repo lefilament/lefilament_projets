@@ -31,7 +31,9 @@
 	'website': 'https://le-filament.com',
 	'data': [
 		'views/assets.xml',
-		'views/lefilament_projets_view.xml',
+		'views/lefilament_projets_view.xml',                
+		'views/account_analytic_view.xml',
+                'security/ir.model.access.csv',
 	],
 	'qweb': [
     ],
