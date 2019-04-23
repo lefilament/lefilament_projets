@@ -15,6 +15,7 @@ This module provides:
  - a progressbar spent / budget
  - prospecting hours (new field to set up at the project level and based on the number of hours charged to a task named Prospection)
 
+This module source code is maintained on BitBucket here : https://bitbucket.org/chaudlesmarmots/lefilament_projets
 
 Credits
 =======
